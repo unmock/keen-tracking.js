@@ -1,10 +1,11 @@
-import nock from 'nock';
+// import nock from 'nock';
+import unmock from 'unmock-node';
 
 import KeenTracking from '../../..';
 import config from '../helpers/client-config';
 
 // Keen.debug = true;
-
+// https://api.keen.io/3.0/projects/bad91832483312092/events",
 describe('.recordEvent(s) methods (server)', () => {
   let client;
   const requestKey = config.writeKey;
@@ -35,46 +36,73 @@ describe('.recordEvent(s) methods (server)', () => {
   };
 
   beforeAll(() => {
-    nock(/https:/, {
-        reqheaders: {
-          'authorization': requestKey,
-          'content-type': 'application/json',
-        }
-      })
-      .persist()
-      .post(/./, JSON.stringify(dummyQueryData))
-      .reply(200, dummyResponse);
+    unmock.on();
+    // /*
+    // {
+    //   "method": "POST",
+    //   "url": "https://api.keen.io/3.0/projects/bad91832483312092/events/mocha",
+    //   "headers": {
+    //     "authorization": "bad71ffe8407322ab70559afef29508799ed64b3f75a1ba9e26",
+    //     "content-type": "application/json",
+    //     "content-length": 36,
+    //     "keen-sdk": "javascript-4.4.1"
+    //   },
+    //   "body": "{\"username\":\"keenio\",\"color\":\"blue\"}"
+    // }
+    // */
+    // nock(/https:/, {
+    //     reqheaders: {
+    //       'authorization': requestKey,
+    //       'content-type': 'application/json',
+    //     }
+    //   })
+    //   .persist()
+    //   .post(/./, JSON.stringify(dummyQueryData))
+    //   .reply(200, dummyResponse);
 
-    nock(/http:/, {
-        reqheaders: {
-          'authorization': requestKey,
-          'content-type': 'application/json',
-      }
-      })
-      .persist()
-      .post(/./, JSON.stringify(dummyQueryData))
-      .reply(200, dummyResponse);
+    // nock(/http:/, {
+    //     reqheaders: {
+    //       'authorization': requestKey,
+    //       'content-type': 'application/json',
+    //   }
+    //   })
+    //   .persist()
+    //   .post(url => { process.stdout.write("MIKE LOOK: "+url); return true; }, JSON.stringify(dummyQueryData))
+    //   .reply(200, dummyResponse);
 
-    nock(/http:/, {
-        reqheaders: {
-          'authorization': requestKey,
-          'content-type': 'application/json',
-      }
-      })
-      .persist()
-      .post(/./, JSON.stringify(dummyInvalidQueryData))
-      .reply(200, dummyErrorResponse);
+    // nock(/http:/, {
+    //     reqheaders: {
+    //       'authorization': requestKey,
+    //       'content-type': 'application/json',
+    //   }
+    //   })
+    //   .persist()
+    //   .post(url => { process.stdout.write("MIKE LOOK: "+url); return true; }, JSON.stringify(dummyInvalidQueryData))
+    //   .reply(200, dummyErrorResponse);
 
-    // batch events
-    nock(/https:/, {
-        reqheaders: {
-          'authorization': requestKey,
-          'content-type': 'application/json'
-        }
-      })
-      .persist()
-      .post(/./, JSON.stringify(batchData))
-      .reply(200, batchResponse);
+    //   /*
+    //   {
+    //   "method": "POST",
+    //   "url": "https://api.keen.io/3.0/projects/bad91832483312092/events",
+    //   "headers": {
+    //     "authorization": "bad71ffe8407322ab70559afef29508799ed64b3f75a1ba9e26",
+    //     "content-type": "application/json",
+    //     "content-length": 100,
+    //     "keen-sdk": "javascript-4.4.1"
+    //   },
+    //   "body": "{\"pageview\":[{\"page\":\"this one\"},{\"page\":\"same!\"}],\"click\":[{\"page\":\"tada!\"},{\"page\":\"same again\"}]}"
+    // }
+    //   */
+    // // batch events
+    // nock(/https:/, {
+    //     reqheaders: {
+    //       'authorization': requestKey,
+    //       'content-type': 'application/json'
+    //     }
+    //   })
+    //   .persist()
+    //   .post(/./, JSON.stringify(batchData))
+    //   .reply(200, batchResponse);
   });
 
   beforeEach(() => {
