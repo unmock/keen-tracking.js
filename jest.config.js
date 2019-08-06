@@ -15,6 +15,6 @@ module.exports = {
       "^.+\\.js$": "babel-jest",
   },
   transformIgnorePatterns: [
-    "node_modules/(?!promise-polyfill|whatwg-fetch)/"
+    "node_modules/(?!promise-polyfill|whatwg-fetch)"
   ]
 };
